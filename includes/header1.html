@@ -1,0 +1,122 @@
+<?php include ("library/database.php");
+$categories= "select * from categories";
+$run_category = mysqli_query ($con,$categories);
+?>
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../css/style.css" type="text/css" media="all" />
+    <script src="jquery.min.js"></script>
+    <script>
+        initUserAuthMenu: function() {
+            $('.main-header .top_header .my_account').not('._logged-in').click(function() {
+                if ($('.login-form').is(':visible')) {
+                    $('.login-form .password').css('visibility', 'hidden'); //hack to prevent "forget" from showing while runnin slideup animation
+                    $('.login-form').slideUp(500, function() {
+                        $('.login-form .password').css('visibility', 'visible');
+                    });
+                } else {
+                    $('.login-form').slideDown(500);
+                }
+                return false;
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="top_header">
+            <a href="index.php" class="logo">Logo</a>
+
+            <div class="my_account">
+                <a href="" id="account">حسابي</a>
+            </div>
+            <div class="login">
+                <form action="#" method="get" class="login-form">
+                    <input type="text" name="username" placeholder="إسم المستخدم" class="login-input" />
+                    <input type="text" name="password" placeholder="كلمة المرور" class="login-input" />
+                    <input type="submit" name="submit" value="تسجيل الدخول" class="black-btn-login" />
+                </form>
+            </div>
+            <div class="social">
+                <a href="#"><img src="images/facebook_dark.png"></a>
+                <a href="#"><img src="images/twitter_dark.png"></a>
+            </div>
+        </div>
+
+    </header>
+    <div class="clear-fix"></div>
+
+    <div class="navbar">
+
+        <div class="main-navbar">
+            <ul class="right-nav">
+                <li><a href="index.php">الرئيسية</a></li>
+                <li><a href="register.php">إنشاء حساب</a></li>
+            </ul>
+            <div class="search">
+                <form action="search.php" method="get" enctype="multipart/form-data">
+                    <input type="text" name="value" placeholder="بحث" class="search-input" />
+                    <input type="submit" name="search" class="search-submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="clear-fix"></div>
+
+
+    <div id="body-wrapper">
+        <div class="sidebar">
+            <div class="row">
+                <form action="cart.php" method="post">
+                    <div class="table-head">
+                        <table cellpadding="5" cellspacing="1" style="width:100%" border="none">
+                            <tr>
+                                <th class="cart-ico"></th>
+                                <th>0.00</th>
+                                <th><a href="#">تحديث السلة</a></th>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+                <div class="cart-block">
+                    <form action="header.php" method="post">
+                        <table cellpadding="5" cellspacing="1" style="width:100%" border="none">
+
+                            <tr>
+                                <th style="text-align:center">الكمية</th>
+                                <th style="text-align:center">الوصف</th>
+                                <th style="text-align:left">السعر</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="text-align:center">الإجمالي</td>
+                                <td style="text-align:left">$</td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="cate-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">الأصناف</h3>
+                    </div>
+                    <?php while ($row=mysqli_fetch_array($run_category)) : ?>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="products.php?category_id=<?php echo $row['id'];?>">
+                                <?php echo $row ['name']; ?>
+                            </a>
+                        </li>
+                    </ul>
+                    <?php endwhile ; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
